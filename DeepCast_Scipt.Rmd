@@ -1,0 +1,79 @@
+---
+title: "DeepCast_Scipt"
+author: "Seema Rani Kanuri"
+date: "August 18, 2017"
+output: html_document
+---
+
+# load required packages
+
+```{r setup, include=FALSE}
+library(data.table)
+library(psych)
+library(mvtnorm)
+library(caret)
+library(PRROC)
+```
+
+#Get Dataset
+
+```{r}
+X <- fread(input = "D:/DeepCast/SensorDeviceTestRuns.csv", sep = ",", header = T, showProgress = T)
+X <- data.frame(X)
+str(X)
+```
+
+
+
+```{r}
+#skew <- sum(as.numeric(X$Passed))/nrow(X)
+#sprintf('Percentage of sensor anomalies in the data set %f', skew*100)
+#X[,Test.Date:= as.Date(Test.Date)]
+#X <- X[order(Test.Date)]
+summary(X)
+```
+# Convert the time column to a date column.
+
+```{r}
+head(X)
+library(lubridate)
+X$Date <- dmy(X$Test.Date)
+```
+# sort the data by time.
+```{r}
+X$Month <- as.factor(format(as.Date(X$Date),"%m"))
+X$Day <- as.factor(format(as.Date(X$Date),"%d"))
+X$Year <- as.factor(format(as.Date(X$Date),"%Y"))
+```
+
+```{r}
+any(is.na(X$Device.ID))
+any(is.na(X$Test.Date))
+any(is.na(X$Liquid.1))
+any(is.na(X$Liquid.2))
+any(is.na(X$Liquid.3))
+any(is.na(X$Chemical.X))
+any(is.na(X$Passed))
+```
+```{r}
+X[is.na(X$Passed), ] 
+```
+
+```{r}
+
+
+```
+
+```{r}
+unique(X$Passed)
+train <- X[!is.na(X$Passed),]
+test <- X[is.na(X$Passed),]
+```
+
+
+
+```{r}
+
+```
+
+
